@@ -111,7 +111,64 @@ class BookTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($test_book, $result);
         }
 
-        
+        function test_Update()
+        {
+            //Arrange
+            $title = "Harry Potter";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            $new_title = "Hairy Potter";
+            $test_book->update($new_title);
+
+            //Act
+            $result = $test_book;
+
+            //Assert
+            $this->assertEquals($test_book, $result);
+        }
+
+        function test_deleteSingle()
+        {
+            //Arrange
+            $title = "Harry Potter";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            $title2 = "Cinder";
+            $test_book2 = new Book($title2, $id);
+            $test_book2->save();
+
+            //Act
+            $test_book->delete();
+            $result = Book::getAll();
+
+            //Assert
+            $this->assertEquals($test_book2, $result[0]);
+        }
+
+        function test_searchByTitle()
+        {
+            //Arrange
+            $title = "Harry Potter and The Order of the Pheonix";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            $title2 = "Cinder";
+            $test_book2 = new Book($title2, $id);
+            $test_book2->save();
+
+            $search = "Harry Potter";
+
+            //Act
+            $result = Book::search($search);
+
+            //Assert
+            $this->assertEquals([$test_book], $result);
+        }
 
     }
 
