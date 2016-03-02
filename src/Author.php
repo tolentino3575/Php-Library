@@ -74,6 +74,21 @@
             $this->setName($new_author);
         }
 
+        static function search($search_author)
+        {
+            $all_authors = Author::getAll();
+            $lowercase_search = strtolower($search_author);
+            $found_authors = array();
+            foreach($all_authors as $author) {
+                $lowercase_author = strtolower($author->getName());
+                $compare = strpos($lowercase_author, $lowercase_search);
+                if( is_numeric($compare)) {
+                    array_push($found_authors, $author);
+                }
+            }
+            return $found_authors;
+        }
+
         function addBook($book)
         {
             $GLOBALS['DB']->exec("INSERT INTO books_authors (books_id, authors_id) VALUES ({$book->getId()}, {$this->getId()});");
