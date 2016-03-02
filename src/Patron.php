@@ -28,6 +28,7 @@
 
         function save()
         {
+            $this->setDueDate($this->generateDueDate($this->getCheckedOutDate()))
             $GLOBALS['DB']->exec("INSERT INTO patrons (patron_name) VALUES ('{$this->getPatronName()}');");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
