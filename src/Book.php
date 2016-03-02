@@ -89,6 +89,31 @@
             }
             return $found_books;
         }
+
+        function addAuthor($author)
+        {
+            $GLOBALS['DB']->exec("INSERT INTO books_authors (books_id, authors_id) VALUES ({$this->getId()}, {$author->getId()});");
+        }
+
+        function getAuthors()
+        {
+            $query = $GLOBALS['DB']->query("SELECT authors.* FROM books JOIN books_authors ON (books.id = books_authors.books_id) JOIN authors ON (books_authors.authors_id = authors.id) WHERE books.id = {$this->getId()};");
+            $returned_authors = $query->fetchAll(PDO::FETCH_ASSOC);
+            $authors = array();
+            foreach($returned_authors as $author) {
+                $name = $author['name'];
+                $id = $author['id'];
+                $new_author = new Author($name, $id);
+                array_push($authors, $new_author);
+            }
+            return $authors;
+        }
+
+
+
+
+
+
     }
 
 ?>

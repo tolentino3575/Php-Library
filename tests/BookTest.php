@@ -6,6 +6,7 @@
 */
 
 require_once "src/Book.php";
+require_once "src/Author.php";
 
 $server = 'mysql:host=localhost;dbname=library_test';
 $username = 'root';
@@ -19,6 +20,7 @@ class BookTest extends PHPUnit_Framework_TestCase
         protected function TearDown()
         {
             Book::deleteAll();
+            Author::deleteAll();
         }
 
         function test_allGetters()
@@ -168,6 +170,51 @@ class BookTest extends PHPUnit_Framework_TestCase
 
             //Assert
             $this->assertEquals([$test_book], $result);
+        }
+
+        function test_addAuthor()
+        {
+            //Arrange
+            $name = "JK Rowling";
+            $id = null;
+            $test_author = new Author($name, $id);
+            $test_author->save();
+
+            $title = "Harry Potter and The Order of the Pheonix";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            //Act
+            $test_book->addAuthor($test_author);
+
+            //Assert
+            $this->assertEquals([$test_author], $test_book->getAuthors());
+        }
+
+        function test_getAuthors()
+        {
+            //Arrange
+            $name = "JK Rowling";
+            $id = null;
+            $test_author = new Author($name, $id);
+            $test_author->save();
+
+            $name2 = "Erik Tolentino";
+            $test_author2 = new Author($name2, $id);
+            $test_author2->save();
+
+            $title = "Harry Potter and The Order of the Pheonix";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            //Act
+            $test_book->addAuthor($test_author);
+            $test_book->addAuthor($test_author2);
+
+            //Assert
+            $this->assertEquals([$test_author, $test_author2], $test_book->getAuthors());
         }
 
     }

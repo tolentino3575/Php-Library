@@ -6,6 +6,7 @@
 */
 
 require_once "src/Author.php";
+require_once "src/Book.php";
 
 $server = 'mysql:host=localhost;dbname=library_test';
 $username = 'root';
@@ -19,6 +20,7 @@ class AuthorTest extends PHPUnit_Framework_TestCase
         protected function TearDown()
         {
             Author::deleteAll();
+            Book::deleteAll();
         }
 
         function test_allGetters()
@@ -134,6 +136,63 @@ class AuthorTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($test_author2, $result[0]);
         }
 
+        function test_updateName()
+        {
+            //Arrange
+            $name = "JK Rowling";
+            $id = null;
+            $test_author = new Author($name, $id);
+            $test_author->save();
+            $update_name = "JayKay Rowling";
+
+            //Act
+            $test_author->update($update_name);
+
+            //Assert
+            $this->assertEquals($update_name, $test_author->getName());
+        }
+
+        function test_addBook()
+        {
+            //Arrange
+            $name = "JK Rowling";
+            $id = null;
+            $test_author = new Author($name, $id);
+            $test_author->save();
+
+            $title = "Harry Potter";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            //Act
+            $test_author->addBook($test_book);
+
+            //Assert
+            $this->assertEquals([$test_book], $test_author->getBooks());
+        }
+
+        function test_getBooks()
+        {
+            $name = "JK Rowling";
+            $id = null;
+            $test_author = new Author($name, $id);
+            $test_author->save();
+
+            $title = "Harry Potter";
+            $id = null;
+            $test_book = new Book($title, $id);
+            $test_book->save();
+
+            $title2 = "Harry Potter 2";
+            $test_book2 = new Book($title, $id);
+            $test_book2->save();
+
+            $test_author->addBook($test_book);
+            $test_author->addBook($test_book2);
+
+            $this->assertEquals($test_author->getBooks(), [$test_book, $test_book2]);
+        }
 
 
 
