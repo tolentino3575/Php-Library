@@ -133,6 +133,53 @@ class CopyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals([], $result);
     }
 
+    function test_find()
+    {
+        //Arrange
+        $name = "Harry Potter";
+        $id = null;
+        $test_book = new Book($name, $id);
+        $test_book->save();
+
+        $book_id = $test_book->getId();
+        $checked_out = 0;
+        $test_copy = new Copy($book_id, $checked_out, $id);
+        $test_copy->save();
+
+        $test_copy2 = new Copy($book_id, $checked_out, $id);
+        $test_copy2->save();
+
+        //Act
+        $result = Copy::find($test_copy->getId());
+
+        //Assert
+        $this->assertEquals($test_copy, $result);
+    }
+
+    function test_delete()
+    {
+        //Arrange
+        $name = "Harry Potter";
+        $id = null;
+        $test_book = new Book($name, $id);
+        $test_book->save();
+
+        $book_id = $test_book->getId();
+        $checked_out = 0;
+        $test_copy = new Copy($book_id, $checked_out, $id);
+        $test_copy->save();
+
+        $test_copy2 = new Copy($book_id, $checked_out, $id);
+        $test_copy2->save();
+
+        //Act
+        $test_copy->delete();
+        $result = Copy::getAll();
+
+        //Assert
+        $this->assertEquals([$test_copy2], $result);
+    }
+
 }
 
 
