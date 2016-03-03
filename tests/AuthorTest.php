@@ -17,11 +17,11 @@ $DB = new PDO($server, $username, $password);
 
 class AuthorTest extends PHPUnit_Framework_TestCase
     {
-        protected function TearDown()
-        {
-            Author::deleteAll();
-            Book::deleteAll();
-        }
+        // protected function TearDown()
+        // {
+        //     Author::deleteAll();
+        //     Book::deleteAll();
+        // }
 
         function test_allGetters()
         {
@@ -46,15 +46,18 @@ class AuthorTest extends PHPUnit_Framework_TestCase
             $id = null;
             $test_author = new Author($name, $id);
 
-            $name2 = "Marissa Meyer";
+            $name2 = "JK Rowling";
             $test_author2 = new Author($name2, $id);
 
             //Act
             $test_author->save();
+            $test_author2->save();
             $result = Author::getAll();
 
             //Assert
             $this->assertEquals([$test_author], $result);
+
+
 
         }
 

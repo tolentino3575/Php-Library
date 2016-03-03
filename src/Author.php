@@ -33,7 +33,7 @@
             $found_author = null;
 
             foreach($returned_author as $author) {
-              $author_id = $author->getId();
+              $author_id = $author['id'];
               $found_author = Author::find($author_id);
             }
 
