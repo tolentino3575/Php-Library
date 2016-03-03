@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+      <form action="/overdue" method="post">
+        <label for="date">Search Overdues by Date</label>
+        <input id="date" name="date">
+        <button type="submit" class="btn btn-danger">View Overdues</button>
+      </form>
+
+      <form action="/library_status" method="get">
+        <button type="submit" class="btn btn-primary">Check Library Status</button> 
+      </form>
+    </div>
+  </body>
+</html>

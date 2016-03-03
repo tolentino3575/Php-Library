@@ -1,4 +1,4 @@
-<<?php
+<?php
 
     class Copy
     {
@@ -26,6 +26,11 @@
         function setCheckedOut($new_checked_out)
         {
             $this->checked_out = $new_checked_out;
+        }
+
+        function findBook($book_id)
+        {
+          return Book::find($book_id);
         }
 
         function getCheckedOut()
