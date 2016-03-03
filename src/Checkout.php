@@ -62,6 +62,42 @@
             return $this->id;
         }
 
+        function createDueDate($checkout_date)
+        {
+            $due_date = strtotime("+14 days", strtotime($checkout_date));
+            $recreate_date = date("Y-m-d", $due_date);
+            return $recreate_date;
+
+        }
+
+        function save()
+        {
+            $this->setDueDate($this->createDueDate($this->getDateCheckedOut()));
+            $GLOBALS['DB']->exec("INSERT INTO checkouts (book_copy_id, date_checked_out, due_date, patron_id) VALUES ({$this->getBookCopyId()}, '{$this->getDateCheckedOut()}', '{$this->getDueDate()}', {$this->getPatronId()});");
+            $this->id = $GLOBALS['DB']->lastInsertId();
+        }
+
+        static function getAll()
+        {
+            $returned_checkouts = $GLOBALS['DB']->query("SELECT * FROM checkouts;");
+            $checkouts = array();
+            foreach($returned_checkouts as $checkout) {
+                $book_copy_id = $checkout['book_copy_id'];
+                $patron_id = $checkout['patron_id'];
+                $date_checked_out = $checkout['date_checked_out'];
+                $due_date = $checkout['due_date'];
+                $id = $checkout['id'];
+                $new_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, $due_date, $id);
+                array_push($checkouts, $new_checkout);
+            }
+            return $checkouts;
+        }
+
+        static function deleteAll()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM checkouts");
+        }
+
 
     }
 

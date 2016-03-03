@@ -6,6 +6,8 @@
     */
 
     require_once "src/Checkout.php";
+    require_once "src/Copy.php";
+    require_once "src/Patron.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -14,6 +16,11 @@
 
     class CheckoutTest extends PHPUnit_Framework_TestCase
     {
+        protected function TearDown()
+        {
+            Checkout::deleteAll();
+        }
+
         function test_allGetters()
         {
             $book_copy_id = 3;
@@ -37,7 +44,57 @@
             $this->assertEquals($id, $result5);
         }
 
+        function test_save()
+        {
+//Creates new instance of a copy
+            $book_id = 3;
+            $checked_out = 0;
+            $new_copy = new Copy($book_id, $checked_out, null);
+            $new_copy->save();
+//Creates instance of patron
+            $patron_name = "Walter Rick";
+            $new_patron = new Patron($patron_name, null);
+            $new_patron->save();
+//Creates instance of Checkout
+            $book_copy_id = $new_copy->getId();
+            $patron_id = $new_patron->getId();
+            $date_checked_out = "2015-03-14";
+            $due_date = null;
+            $id = 4;
+            $test_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, $due_date, $id);
 
+            //Act
+            $test_checkout->save();
+            $result = Checkout::getAll();
+
+            //Assert
+            $this->assertEquals([$test_checkout], $result);
+        }
+
+        function test_getAll()
+        {
+            $book_copy_id = 3;
+            $patron_id = 4;
+            $date_checked_out = "2015-03-14";
+            $due_date = "2015-03-28";
+            $id = 4;
+            $test_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, $due_date, $id);
+            $test_checkout->save();
+
+            $book_copy_id2 = 3;
+            $patron_id2 = 4;
+            $date_checked_out2 = "2015-03-14";
+            $due_date2 = "2015-03-28";
+            $id2 = 4;
+            $test_checkout2 = new Checkout($book_copy_id2, $patron_id2, $date_checked_out2, $due_date2, $id2);
+            $test_checkout2->save();
+
+            //Act
+            $result = Checkout::getAll();
+
+            //Assert
+            $this->assertEquals([$test_checkout, $test_checkout2], $result);
+        }
 
 
     }
