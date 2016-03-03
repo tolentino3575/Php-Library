@@ -36,5 +36,12 @@
       return $app['twig']->render('library_status.html.twig', array('total' => Copy::getAll(), 'checked_in' => Copy::getAllCheckedIn(), 'checked_out' => Copy::getAllCheckedOut()));
     });
 
+    $app->get("", function() use ($app) {
+      $book = new Book = $_POST['title'];
+      $author = new Author = $_POST[' n'];
+      $book->addAuthor($author);
+      $copy = new Copy($book->getId());
+    });
+
     return $app;
  ?>

@@ -28,8 +28,22 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO authors (name) VALUES ('{$this->getName()}');");
-            $this->id = $GLOBALS['DB']->lastInsertId();
+            $query = $GLOBALS['DB']->query("SELECT * FROM authors WHERE name = '{$this->getName()}'");
+            $returned_author = $query->fetchAll(PDO::FETCH_ASSOC);
+            $found_author = null;
+
+            foreach($returned_author as $author) {
+              $author_id = $author->getId();
+              $found_author = Author::find($author_id);
+            }
+
+            if ($found_author != null) {
+              return $found_author;
+            } else {
+              $GLOBALS['DB']->exec("INSERT INTO authors (name) VALUES ('{$this->getName()}');");
+              $this->id = $GLOBALS['DB']->lastInsertId();
+            }
+
         }
 
         static function getAll()
