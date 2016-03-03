@@ -101,8 +101,43 @@
             $this->assertEquals([$test_checkout, $test_checkout2], $result);
         }
 
+        function test_find()
+        {
+          //Arrange
+          $book_copy_id = 3;
+          $patron_id = 4;
+          $date_checked_out = "2016-04-30";
+          $due_date = null;
+          $test_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, $due_date, null);
+          $test_checkout->save();
+
+          $book_copy_id2 = 4;
+          $patron_id2 = 5;
+          $date_checked_out2 = "2016-05-03";
+          $test_checkout2 = new Checkout($book_copy_id2, $patron_id2, $date_checked_out2, $due_date, null);
+          $test_checkout2->save();
+
+          //Act
+          $result = Checkout::find($test_checkout2->getId());
+
+          //Assert
+          $this->assertEquals($test_checkout2, $result);
+        }
+
+        function getPatronByBook()
+        {
+          $
+        }
+
 
     }
+
+
+
+
+
+
+
 
 
 
