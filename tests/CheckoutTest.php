@@ -176,8 +176,52 @@
 
         }
 
+        function test_getBooksbyPatron()
+        {
+          //Arrange
+          $patron_name = "Sean John";
+          $new_patron = new Patron($patron_name, null);
+          $new_patron->save();
+
+          $title = "Harry Potter";
+          $new_book = new Book($title, null);
+          $new_book->save();
+
+          $book_id = $new_book->getId();
+          $checked_out = 0;
+          $test_copy = new Copy($book_id, $checked_out, null);
+          $test_copy->save();
+
+          $book_id2 = $new_book->getId();
+          $checked_out = 0;
+          $test_copy2 = new Copy($book_id, $checked_out, null);
+          $test_copy2->save();
+
+          $book_copy_id = $test_copy->getId();
+          $patron_id = $new_patron->getId();
+          $date_checked_out = "2000-01-01";
+          $test_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, null, null);
+          $test_checkout->save();
+
+          $book_copy_id2 = $test_copy2->getId();
+          $test_checkout2 = new Checkout($book_copy_id2, $patron_id, $date_checked_out, null, null);
+          $test_checkout2->save();
+
+          //Act
+          $result = Checkout::getBooksbyPatron($patron_id);
+
+          //Assert
+          $this->assertEquals([$new_book, $new_book], $result);
+        }
 
     }
+
+
+
+
+
+
+
 
 
 

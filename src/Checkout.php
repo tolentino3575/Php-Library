@@ -130,6 +130,25 @@
           return $patrons;
         }
 
+        static function getBooksbyPatron($patron_id)
+        {
+          $query = $GLOBALS['DB']->query("SELECT books.* FROM patrons
+            JOIN checkouts ON (patrons.id = checkouts.patron_id)
+            JOIN copies ON (checkouts.book_copy_id = copies.id)
+            JOIN books ON (copies.book_id = books.id)
+            WHERE patrons.id = {$patron_id};");
+
+          $returned_books = $query->fetchAll(PDO::FETCH_ASSOC);
+          $books = array();
+          foreach($returned_books as $book) {
+            $title = $book['title'];
+            $id = $book['id'];
+            $new_book = new Book($title, $id);
+            array_push($books, $new_book);
+          }
+          return $books;
+        }
+
     }
 
 
