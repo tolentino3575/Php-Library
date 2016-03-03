@@ -75,6 +75,7 @@
             $this->setDueDate($this->createDueDate($this->getDateCheckedOut()));
             $GLOBALS['DB']->exec("INSERT INTO checkouts (book_copy_id, date_checked_out, due_date, patron_id) VALUES ({$this->getBookCopyId()}, '{$this->getDateCheckedOut()}', '{$this->getDueDate()}', {$this->getPatronId()});");
             $this->id = $GLOBALS['DB']->lastInsertId();
+            $GLOBALS['DB']->exec("UPDATE copies SET checked_out = 1 WHERE  id = {$this->getBookCopyId()};");
         }
 
         static function getAll()

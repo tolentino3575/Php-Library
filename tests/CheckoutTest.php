@@ -19,6 +19,8 @@
         protected function TearDown()
         {
             Checkout::deleteAll();
+            Copy::deleteAll();
+            Patron::deleteAll();
         }
 
         function test_allGetters()
@@ -66,9 +68,12 @@
             //Act
             $test_checkout->save();
             $result = Checkout::getAll();
+            $result2 = Copy::find($book_copy_id);
 
             //Assert
             $this->assertEquals([$test_checkout], $result);
+            $this->assertEquals(1, $result2->getCheckedOut());
+
         }
 
         function test_getAll()

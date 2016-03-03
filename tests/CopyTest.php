@@ -109,6 +109,56 @@ class CopyTest extends PHPUnit_Framework_TestCase
 
     }
 
+    function test_getAllCheckedOut()
+    {
+      //Arrange
+      $name = "Harry Potter";
+      $id = null;
+      $test_book = new Book($name, $id);
+      $test_book->save();
+
+      $book_id = $test_book->getId();
+      $checked_in = 0;
+      $test_copy = new Copy($book_id, $checked_in, $id);
+      $test_copy->save();
+
+      $book_id = $test_book->getId();
+      $checked_out = 1;
+      $test_copy2 = new Copy($book_id, $checked_out, $id);
+      $test_copy2->save();
+
+      //Act
+      $result = Copy::getAllCheckedOut();
+
+      //Assert
+      $this->assertEquals([$test_copy2], $result);
+    }
+
+    function test_getAllCheckedIn()
+    {
+      //Arrange
+      $name = "Harry Potter";
+      $id = null;
+      $test_book = new Book($name, $id);
+      $test_book->save();
+
+      $book_id = $test_book->getId();
+      $checked_out = 0;
+      $test_copy = new Copy($book_id, $checked_out, $id);
+      $test_copy->save();
+
+      $book_id = $test_book->getId();
+      $checked_in = 1;
+      $test_copy2 = new Copy($book_id, $checked_in, $id);
+      $test_copy2->save();
+
+      //Act
+      $result = Copy::getAllCheckedIn();
+
+      //Assert
+      $this->assertEquals([$test_copy], $result);
+    }
+
     function test_deleteAll()
     {
         //Arrange
