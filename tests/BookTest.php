@@ -7,6 +7,7 @@
 
 require_once "src/Book.php";
 require_once "src/Author.php";
+require_once "src/Copy.php";
 
 $server = 'mysql:host=localhost;dbname=library_test';
 $username = 'root';
@@ -21,6 +22,7 @@ class BookTest extends PHPUnit_Framework_TestCase
         {
             Book::deleteAll();
             Author::deleteAll();
+            Copy::deleteAll();
         }
 
         function test_allGetters()
@@ -46,8 +48,12 @@ class BookTest extends PHPUnit_Framework_TestCase
             $id = null;
             $test_book = new Book($title, $id);
 
+            $title2 = "Harry Potter";
+            $test_book2 = new Book($title, $id);
+
             //Act
             $test_book->save();
+            $test_book2->save();
             $result = Book::getAll();
 
             //Assert

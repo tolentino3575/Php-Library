@@ -9,14 +9,16 @@
   </head>
   <body>
     <div class="container">
+      <h2>Search Books</h2>
       <form action="/overdue" method="post">
         <label for="date">Search Overdues by Date</label>
         <input id="date" name="date">
         <button type="submit" class="btn btn-danger">View Overdues</button>
       </form>
-
+      <br>
+      <h2>View Library</h2>
       <form action="/library_status" method="get">
-        <button type="submit" class="btn btn-primary">Check Library Status</button> 
+        <button type="submit" class="btn btn-primary">Check Library Status</button>
       </form>
     </div>
   </body>

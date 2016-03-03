@@ -29,8 +29,22 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('{$this->getTitle()}');");
-            $this->id = $GLOBALS['DB']->lastInsertId();
+            $query=$GLOBALS['DB']->query("SELECT * FROM books WHERE title = '{$this->getTitle()}';");
+            $returned_book = $query->fetchAll(PDO::FETCH_ASSOC);
+            $found_book = null;
+
+            foreach($returned_book as $book) {
+              $book_id = $book['id'];
+              $found_book = Book::find($book_id);
+            }
+
+            if ($found_book != null) {
+              return $found_book;
+            }
+            else {
+              $GLOBALS['DB']->exec("INSERT INTO books (title) VALUES ('{$this->getTitle()}');");
+              $this->id = $GLOBALS['DB']->lastInsertId();
+            }
         }
 
         static function getAll()

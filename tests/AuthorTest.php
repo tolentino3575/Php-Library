@@ -7,6 +7,7 @@
 
 require_once "src/Author.php";
 require_once "src/Book.php";
+require_once "src/Copy.php";
 
 $server = 'mysql:host=localhost;dbname=library_test';
 $username = 'root';
@@ -17,11 +18,12 @@ $DB = new PDO($server, $username, $password);
 
 class AuthorTest extends PHPUnit_Framework_TestCase
     {
-        // protected function TearDown()
-        // {
-        //     Author::deleteAll();
-        //     Book::deleteAll();
-        // }
+        protected function TearDown()
+        {
+            Author::deleteAll();
+            Book::deleteAll();
+            Copy::deleteAll();
+        }
 
         function test_allGetters()
         {
@@ -210,7 +212,7 @@ class AuthorTest extends PHPUnit_Framework_TestCase
             $test_book->save();
 
             $title2 = "Harry Potter 2";
-            $test_book2 = new Book($title, $id);
+            $test_book2 = new Book($title2, $id);
             $test_book2->save();
 
             $test_author->addBook($test_book);

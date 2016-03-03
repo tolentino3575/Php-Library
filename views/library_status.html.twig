@@ -1,3 +1,4 @@
+<!-- all_authors all_books-->
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,12 +10,25 @@
     </head>
     <body>
       <h2>Total Books:</h2>
-      {% if total is not empty %}
+      <h2>Add A Book:</h2>
+      <form action="/add_book" method="post">
+        <label for="title">Enter Book Title</label>
+          <input type="text" name="title" value="">
+        <label for="author">Enter Author Name:</label>
+          <input type="text" name="author" value="">
+        <button type="submit" name="button" class="btn btn-warning">Add Book</button>
+      </form>
+
+      {% if all_authors is not empty %}
       <ul>
-        {% for copy in total %}
-          {% set book_id = copy.getBookId %}
-          {% set book = copy.find(book_id) %}
-          <li>{{ book.getTitle }}</li>
+        {% for author in all_authors %}
+        <li>{{ author.getName }}</li>
+          {% set author_books = author.getBooks %}
+          <ul>
+            {% for book in author_books %}
+            <li>{{ book.getTitle }}</li>
+            {% endfor %}
+          </ul>
         {% endfor %}
       </ul>
       {% endif %}
