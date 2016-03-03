@@ -8,6 +8,7 @@
     require_once "src/Checkout.php";
     require_once "src/Copy.php";
     require_once "src/Patron.php";
+    require_once "src/Book.php";
 
     $server = 'mysql:host=localhost;dbname=library_test';
     $username = 'root';
@@ -21,6 +22,7 @@
             Checkout::deleteAll();
             Copy::deleteAll();
             Patron::deleteAll();
+            Book::deleteAll();
         }
 
         function test_allGetters()
@@ -124,9 +126,54 @@
           $this->assertEquals($test_checkout2, $result);
         }
 
-        function getPatronByBook()
+        function test_getPatronsByBook()
         {
-          $
+          //Arrange
+          $title = "Harry Potter";
+          $new_book = new Book($title, null);
+          $new_book->save();
+//2 Copies
+          $book_id = $new_book->getId();
+          $checked_out = 0;
+          $test_copy1 = new Copy($book_id, $checked_out, null);
+          $test_copy1->save();
+
+          $test_copy2 = new Copy($book_id, $checked_out, null);
+          $test_copy2->save();
+
+//2 patrons
+          $patron_name = "Elizabeth Knopp";
+          $test_patron1 = new Patron($patron_name, null);
+          $test_patron1->save();
+
+          $patron_name2 = "Joshua Authorlee";
+          $test_patron2 = new Patron($patron_name2, null);
+          $test_patron2->save();
+// 3 Checkouts, 2 with the same book (unique copies)
+          $book_copy_id = 5;
+          $patron_id = 14;
+          $date_checked_out = "2016-04-30";
+          $test_checkout = new Checkout($book_copy_id, $patron_id, $date_checked_out, null, null);
+          $test_checkout->save();
+
+          $book_copy_id2 = $test_copy1->getId();
+          $patron_id2 = $test_patron1->getId();
+          $date_checked_out2 = "2008-03-28";
+          $test_checkout2 = new Checkout($book_copy_id2, $patron_id2, $date_checked_out2, null, null);
+          $test_checkout2->save();
+
+          $book_copy_id3 = $test_copy2->getId();
+          $patron_id3 = $test_patron2->getId();
+          $date_checked_out3 = "2015-12-28";
+          $test_checkout3 = new Checkout($book_copy_id3, $patron_id3, $date_checked_out3, null, null);
+          $test_checkout3->save();
+
+          //Act
+          $result = Checkout::getPatronsByBook($book_id);
+
+          //Assert
+          $this->assertEquals([$test_patron1, $test_patron2], $result);
+
         }
 
 
