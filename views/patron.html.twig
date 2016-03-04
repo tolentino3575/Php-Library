@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/styles.css" type="text/css">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Find a Book:</h1>
+      <form action="search_book" method = "get">
+        <label for="search">Search by title:</label>
+        <input id="search" name="search" required>
+        <button type="submit" class="btn btn-warning">Search by title</button>
+      </form>
+
+      {% if books is not empty %}
+      <ul>
+        {% for book in books %}
+          <li><a href="/book/{{ book.getId }}">{{ book.getTitle }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+    <form action="/patron">
+      <button type="submit" class="btn btn-danger">Clear Search</button>
+    </form>
+    <br>
+    <a href="/">GO HOME</a>
+    </div>
+  </body>
+</html>

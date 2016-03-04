@@ -73,5 +73,20 @@
 
     });
 
+    $app->get("/patron", function() use ($app) {
+      return $app['twig']->render('patron.html.twig');
+    });
+
+    $app->get("/search_book", function() use ($app){
+        $search = $_GET['search'];
+        $returned_books = Book::search($search);
+      return $app['twig']->render('patron.html.twig', array('books' => $returned_books));
+    });
+
+    $app->get("/book/{id}/{author_id}", function($id) use ($app){
+        $book = Book::find($id);
+      return $app['twig']->render('book.html.twig', array('book' => $book));
+    });
+
     return $app;
  ?>
