@@ -1,41 +1,51 @@
-# _{Application Name}_
+#Library
 
-#### _{Brief description of application}, {Date of current version}_
+##Author
 
-#### By _**{List of contributors}**_
+This project was created by Erik Tolentino
 
-## Description
+##Description
 
-_{This is a detailed description of your application. Its purpose and usage.  Give as much detail as needed to explain what the application does, and any other information you want users or other developers to have. }_
+This is a library app that allows user to do things a librarian might do, like enter new books, checkout books, etc. App is not complete.
 
-## Setup/Installation Requirements
+#Setup
 
-* _Clone the Repository_
-* _in your terminal, run  "composer install"   to get silex and twig_
-* _start your php sever in the "web" folder_
-* _x _
-* _x _
+To View:
+* Git clone this repository
 
-_{Leave nothing to chance! You want it to be easy for potential users, employers and collaborators to run your app. Do I need to run a server? How should I set up my databases? Is there other code this app depends on?}_
+* From terminal, enter "mysql.server start" to start the MySQL servers and enter mysql shell
+* Next enter "mysql -uroot -proot" to set username and password for PhpMyAdmin
 
-## Known Bugs
+* From bash terminal, enter "apachectl start" to start PhpMyAdmin
+* In browser, type "localhost:8080/phpmyadmin"
+* If prompted, both your username and password are "root"
 
-_{Are there issues that have not yet been resolved that you want to let users know you know?  Outline any issues that would impact use of your application.  Share any workarounds that are in place. }_
+* From PhpMyAdmin, import "library" and "library_test databases included in folder
 
-## Support and contact details
+* From mysql shell in terminal, enter "USE library" to enter database
 
-_{Let people know what to do if they run into any issues or have questions, ideas or concerns.  Encourage them to contact you or make a contribution to the code.}_
+* From bash terminal, run "composer install" while in project root folder
 
-## Technologies Used
+* From bash terminal, enter "php -S localhost:8000" while in the web folder
 
-_
-* _Composer_
-* _Twig_
-* _Silex_
-* _PHP_
+* To view, type "localhost:8000" in browser
 
-### License
+#Technologies Used:
 
-*{Determine the license under which this application can be used.  See below for more details on licensing.}*
+* Php
+* PhpMyAdmin
+* Apache
+* MySQL
+* PHPUnit
+* Silex
+* Twig
+* Atom
+* Terminal
+* GitHub
+* Bootstrap
+* HTML
 
-Copyright (c) 2015 **_{List of contributors or company name}_**
+#Legal
+
+* MIT Licensed
+* Copyright (c) 2016 Erik Tolentino
